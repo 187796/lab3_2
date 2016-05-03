@@ -22,4 +22,12 @@ public class PublishableNews {
 		
 	}
 
+	public List<String> getPublicContent() {
+		return publicContent;
+	}
+
+	public List<String> getSubscribentContent() {
+		return subscribentContent;
+	}
+
 }
