@@ -1,11 +1,9 @@
 package edu.iis.mto.staticmock;
 
-
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,16 +39,25 @@ public class NewsLoaderTest {
 		when(newsReader.read()).thenReturn(new IncomingNews());
 		when(NewsReaderFactory.getReader(anyString())).thenReturn(newsReader);
 	}
-	
+
 	@Test
-	public void nonSubscriberTest(){
+	public void nonSubscriberTest() {
 		IncomingNews incomingNews = new IncomingNews();
 		when(newsReader.read()).thenReturn(incomingNews);
 		NewsLoader newsLoader = new NewsLoader();
 		PublishableNews publishableNews = newsLoader.loadNews();
 		publishableNews.addPublicInfo("content");
-		assertThat(publishableNews.getPublicContent().size(),is(1));
+		assertThat(publishableNews.getPublicContent().size(), is(1));
 	}
-	
-	
+
+	@Test
+	public void subscriberTest() {
+		IncomingNews incomingNews = new IncomingNews();
+		when(newsReader.read()).thenReturn(incomingNews);
+		NewsLoader newsLoader = new NewsLoader();
+		PublishableNews publishableNews = newsLoader.loadNews();
+		publishableNews.addForSubscription("content", SubsciptionType.A);
+		assertThat(publishableNews.getSubscribentContent().size(), is(1));
+	}
+
 }
