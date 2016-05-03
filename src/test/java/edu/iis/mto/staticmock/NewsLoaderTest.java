@@ -19,6 +19,7 @@ import edu.iis.mto.staticmock.reader.NewsReader;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ConfigurationLoader.class, NewsReaderFactory.class })
@@ -58,6 +59,14 @@ public class NewsLoaderTest {
 		PublishableNews publishableNews = newsLoader.loadNews();
 		publishableNews.addForSubscription("content", SubsciptionType.A);
 		assertThat(publishableNews.getSubscribentContent().size(), is(1));
+	}
+	
+	@Test
+	public void loadNewsTest(){
+		NewsLoader newsLoader = new NewsLoader();
+		newsLoader.loadNews();
+		verify(configurationLoader).loadConfiguration();
+		verify(newsReader).read();
 	}
 
 }
